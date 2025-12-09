@@ -3,6 +3,8 @@ package com.backend.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -16,6 +18,14 @@ public class User {
     private String surname;
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @ManyToMany
+    @JoinTable(
+        name = "user_allergies",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "allergy_id")
+    )
+    private List<Allergy> allergies;
 
     public User() {
     }
@@ -83,5 +93,13 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<Allergy> getAllergies() {
+        return allergies;
+    }
+
+    public void setAllergies(List<Allergy> allergies) {
+        this.allergies = allergies;
     }
 }
